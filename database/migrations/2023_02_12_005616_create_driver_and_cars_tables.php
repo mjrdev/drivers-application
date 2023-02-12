@@ -17,19 +17,19 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name', 255);
-            $table->string('cnh', 12);
-            $table->string('email', 255);
+            $table->string('cnh', 12)->unique();
+            $table->string('email', 255)->unique();
             $table->string('password', 255);
+            $table->boolean('active')->default(false);
 
-            $table->unique(['cnh', 'email']);
         });
 
         Schema::create('cars', function (Blueprint $table) {
             $table->id('id');
             $table->timestamps();
             $table->string('name', 255);
-            $table->string('color', 30);
-            $table->year('age');
+            $table->string('color', 55);
+            $table->year('year');
             $table->string('plate',7);
 
             $table->unsignedBigInteger('driver_id');

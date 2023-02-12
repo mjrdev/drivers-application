@@ -1,5 +1,9 @@
 {
     "Name": "Nome",
+    "Car": "Carro",
+    "Color": "Cor",
+    "Year": "Ano",
+    "Plate": "Placa",
     "E-Mail Address": "E-mail",
     "Password": "Senha",
     "Confirm": "Confirmar",

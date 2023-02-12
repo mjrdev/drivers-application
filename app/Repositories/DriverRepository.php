@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Requests\DriverRequestCreate;
 use App\Http\Requests\DriverRequestUpdate;
 use App\Models\Driver;
+use App\Models\Car;
 
 class DriverRepository
 {
@@ -13,9 +14,18 @@ class DriverRepository
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'cnh' => $request->cnh
+            'cnh' => $request->cnh,
         ]);
         $driver->save();
+        
+        $car = new Car([
+            'name' => $request->carName,
+            'color' => $request->color,
+            'year' => $request->year,
+            'plate' => $request->plate,
+            'driver_id' => $driver->id,
+        ]);
+        $car->save();
 
         return $driver;
     }
