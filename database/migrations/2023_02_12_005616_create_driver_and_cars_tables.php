@@ -13,6 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::create('drivers', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('name', 255);
+            $table->string('cnh', 12);
+            $table->string('email', 255);
+            $table->string('password', 255);
+
+            $table->unique(['cnh', 'email']);
+        });
+
         Schema::create('cars', function (Blueprint $table) {
             $table->id('id');
             $table->timestamps();
@@ -21,21 +32,11 @@ return new class extends Migration
             $table->year('age');
             $table->string('plate',7);
 
-            $table->unique(['plate']);
-        });
+            $table->unsignedBigInteger('driver_id');
+            $table->foreign('driver_id')->references('id')->on('drivers');
 
-        Schema::create('drivers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('name', 255);
-            $table->string('cnh', 12);
-            $table->string('email', 255);
-            $table->string('password', 255);
-            $table->unsignedBigInteger('car_id');
-
-            $table->foreign('car_id')->references('id')->on('cars');
-            $table->unique(['cnh', 'email', 'car_id']);
-        });
+            $table->unique(['plate', 'driver_id']);
+        });       
     }
 
     /**

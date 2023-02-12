@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('/driver')->group(function () {
-    Route::get('/', function (Request $request) {
-        return 'ok';
-    });
+    Route::post('/new', [DriverController::class, 'store']);
+    Route::get('/all', [DriverController::class, 'index']);
+    Route::get('/get/{id}', [DriverController::class, 'show']);
+    Route::patch('/update/{id}', [DriverController::class, 'update']);
+    Route::delete('/delete/{id}', [DriverController::class, 'destroy']);
 });
+
+Route::post('/login', [AuthController::class, 'login']);
