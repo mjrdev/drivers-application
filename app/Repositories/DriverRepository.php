@@ -6,32 +6,26 @@ use App\Http\Requests\DriverRequestCreate;
 use App\Http\Requests\DriverRequestUpdate;
 use App\Models\Driver;
 use App\Models\Car;
+use App\Repositories\CarRepository;
 
 class DriverRepository
 {
-    public function create(DriverRequestCreate $request) {
+    public function create(DriverRequestCreate $request, $carId) {
         $driver = new Driver([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'cnh' => $request->cnh,
+            'car_id' => $carId,
+            'active' => 1
         ]);
         $driver->save();
-        
-        $car = new Car([
-            'name' => $request->carName,
-            'color' => $request->color,
-            'year' => $request->year,
-            'plate' => $request->plate,
-            'driver_id' => $driver->id,
-        ]);
-        $car->save();
 
         return $driver;
     }
 
     public function findById(int $id) {
-        $driver = Driver::find($id);
+        $driver = Driver::with('car')->find($id);
         if(!$driver) {
             return response()->json([
                 'error' => 'Motorista não encontrado'
@@ -66,6 +60,6 @@ class DriverRepository
             ], 404);
         }
         $driver->delete();
-        return;
+        return $driver;
     }
 }

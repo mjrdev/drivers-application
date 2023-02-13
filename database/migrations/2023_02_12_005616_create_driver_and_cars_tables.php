@@ -13,6 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::create('cars', function (Blueprint $table) {
+            $table->id('id');
+            $table->timestamps();
+            $table->string('name', 255);
+            $table->string('color', 55);
+            $table->year('year');
+            $table->string('plate',7)->unique();
+        });   
+        
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -22,21 +31,9 @@ return new class extends Migration
             $table->string('password', 255);
             $table->boolean('active')->default(false);
 
-        });
-
-        Schema::create('cars', function (Blueprint $table) {
-            $table->id('id');
-            $table->timestamps();
-            $table->string('name', 255);
-            $table->string('color', 55);
-            $table->year('year');
-            $table->string('plate',7);
-
-            $table->unsignedBigInteger('driver_id');
-            $table->foreign('driver_id')->references('id')->on('drivers');
-
-            $table->unique(['plate', 'driver_id']);
-        });       
+            $table->unsignedBigInteger('car_id')->unique();
+            $table->foreign('car_id')->references('id')->on('cars');
+        });    
     }
 
     /**
@@ -46,6 +43,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('drivers');
         Schema::dropIfExists('cars');
     }

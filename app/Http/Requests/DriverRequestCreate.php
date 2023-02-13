@@ -26,12 +26,12 @@ class DriverRequestCreate extends FormRequest
         return [
             'name' => 'required|max:255|min:3',
             'email' => 'required|email|unique:drivers',
-            'cnh' => 'required|digits:12',
+            'cnh' => 'required|unique:drivers|digits:12',
             'password' => 'required|min:6|max:255',
             'carName' => 'required|max:255',
             'color' => 'required|max:50',
             'year' => 'required|digits:4',
-            'plate' => 'required|max:7|min:7',
+            'plate' => 'required|unique:cars|max:7|min:7',
         ];
     }
 }

@@ -35,4 +35,6 @@ Route::prefix('/driver')->group(function () {
     Route::get('/get/{id}', [DriverController::class, 'show']);
     Route::patch('/update/{id}', [DriverController::class, 'update']);
     Route::delete('/delete/{id}', [DriverController::class, 'destroy']);
+    // adicionar regex em rotas com id
+    Route::get('/search/{content}', [DriverController::class, 'search']);
 });
