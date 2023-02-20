@@ -24,17 +24,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function() {
-    
+    Route::prefix('/driver')->group(function () {
+        Route::post('/new', [DriverController::class, 'store']);
+        Route::get('/all', [DriverController::class, 'index']);
+        Route::get('/get/{id}', [DriverController::class, 'show']);
+        Route::patch('/update/{id}', [DriverController::class, 'update']);
+        Route::delete('/delete/{id}', [DriverController::class, 'destroy']);
+        Route::get('/search/{content}', [DriverController::class, 'search']);
+    });
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-Route::prefix('/driver')->group(function () {
-    Route::post('/new', [DriverController::class, 'store']);
-    Route::get('/all', [DriverController::class, 'index']);
-    Route::get('/get/{id}', [DriverController::class, 'show']);
-    Route::patch('/update/{id}', [DriverController::class, 'update']);
-    Route::delete('/delete/{id}', [DriverController::class, 'destroy']);
-    // adicionar regex em rotas com id
-    Route::get('/search/{content}', [DriverController::class, 'search']);
-});
